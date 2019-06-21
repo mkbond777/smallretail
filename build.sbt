@@ -18,5 +18,6 @@ libraryDependencies += "org.postgresql" % "postgresql" % "42.2.5"
 
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-slick" % "4.0.0",
-  "com.typesafe.play" %% "play-slick-evolutions" % "4.0.0"
+  "com.typesafe.play" %% "play-slick-evolutions" % "4.0.0",
+  "org.scalactic" %% "scalactic" % "3.0.8"
 )
