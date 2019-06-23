@@ -1,8 +1,7 @@
 package models
 
 import play.api.libs.json.Json.JsValueWrapper
-import play.api.libs.json.{Format, JsPath, JsValue, Json, Reads, Writes}
-import play.api.libs.functional.syntax._
+import play.api.libs.json.{JsObject, Json, Writes}
 
 
 /**
@@ -14,7 +13,7 @@ case class Response(isSuccess : Boolean,
 
 object ResponseHelper {
    implicit val responseWrites = new Writes[Response] {
-     def writes(response: Response) = Json.obj(
+     def writes(response: Response): JsObject = Json.obj(
        "IS_SUCCESS" -> response.isSuccess,
        "MESSAGE" -> response.message,
        "RESULT" -> response.result
