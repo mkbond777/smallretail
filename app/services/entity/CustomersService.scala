@@ -1,7 +1,11 @@
 package services.entity
 
+import java.util.UUID
+
 import com.google.inject.{ImplementedBy, Inject}
 import models.entity.Customers
+import models.exception.Err
+import org.scalactic.{One, Or}
 import services.db.repository.CustomersRepository
 
 import scala.concurrent.Future
@@ -14,8 +18,13 @@ trait CustomersService {
 
   def read : Future[Seq[Customers]]
 
+  def write(customers: Customers) : Future[UUID Or One[Err]]
+
 }
 
 class CustomersServiceImpl @Inject()(val customersRepo: CustomersRepository) extends CustomersService {
+
   override def read: Future[Seq[Customers]] = customersRepo.getCustomers
+
+  override def write(customers: Customers): Future[Or[UUID, One[Err]]] = customersRepo.addCustomers(customers)
 }

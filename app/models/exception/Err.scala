@@ -34,4 +34,5 @@ object Err {
   def unapply(err: Err): Option[(Option[String], Option[Throwable])] = Some(err.message, err.cause)
 }
 
+case class CustomerNotCreated() extends TypedErr
 

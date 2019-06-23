@@ -1,24 +1,24 @@
 package services.exception
 
-import com.google.inject.ImplementedBy
-import javax.inject.Inject
-import models.exception.Err
+import com.google.inject.{ImplementedBy, Inject}
+import models.exception.{CustomerNotCreated, Err}
 import play.api.i18n.{Lang, MessagesApi}
 
 /**
-  * Created by DT2 on 2019-06-21.
+  * Created by DT2 on 2019-06-23.
   */
 @ImplementedBy(classOf[ErrTranslationServiceImpl])
 trait ErrTranslationService {
-  def translate(err : Err) : String
+
+  def translate(err: Err): String
+
 }
 
-class ErrTranslationServiceImpl @Inject()(val messageApi : MessagesApi) extends ErrTranslationService {
+class ErrTranslationServiceImpl @Inject()(val messageApi: MessagesApi) extends ErrTranslationService {
 
   implicit val lang: Lang = Lang(java.util.Locale.getDefault)
 
-  override def translate(err : Err) : String = err match {
-    case _ => ""
+  override def translate(err: Err): String = err match {
+    case CustomerNotCreated() => messageApi("customer.not.created")
   }
-
 }
