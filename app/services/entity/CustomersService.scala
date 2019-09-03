@@ -18,7 +18,7 @@ trait CustomersService {
 
   def read : Future[Seq[Customers]]
 
-  def write(customers: Customers) : Future[UUID Or One[Err]]
+  def write(customers: Customers) : Future[Customers Or One[Err]]
 
 }
 
@@ -26,5 +26,5 @@ class CustomersServiceImpl @Inject()(val customersRepo: CustomersRepository) ext
 
   override def read: Future[Seq[Customers]] = customersRepo.getCustomers
 
-  override def write(customers: Customers): Future[Or[UUID, One[Err]]] = customersRepo.addCustomers(customers)
+  override def write(customers: Customers): Future[Or[Customers, One[Err]]] = customersRepo.addCustomers(customers)
 }

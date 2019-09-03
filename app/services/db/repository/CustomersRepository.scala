@@ -29,10 +29,10 @@ class CustomersRepository @Inject()(protected val dbConfigProvider: DatabaseConf
     db.run(customers.result)
   }
 
-  def addCustomers(customer: Customers) : Future[UUID Or One[Err]] = {
-    db.run((customers returning customers.map(_.id)) += customer)
-      .map(id => if (id.equals(null))
-        Bad(One(CustomerNotCreated())) else Good(id))
+  def addCustomers(customer: Customers) : Future[Customers Or One[Err]] = {
+    db.run((customers returning customers += customer)
+      .map(cust => if (cust.equals(null))
+        Bad(One(CustomerNotCreated())) else Good(cust)))
   }
 
 }
