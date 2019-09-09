@@ -2,12 +2,12 @@ package controllers
 
 import com.google.inject.Inject
 import models.entity.{Customers, CustomersFormat}
+import models.exception.Err
+import org.scalactic.{Bad, Good}
 import play.api.Configuration
 import play.api.libs.json.{JsError, JsSuccess, JsValue, Json}
 import play.api.mvc.{Action, AnyContent, InjectedController, PlayBodyParsers}
 import services.entity.CustomersService
-import models.exception.Err
-import org.scalactic.{Bad, Good}
 import services.exception.ErrTranslationService
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -36,8 +36,21 @@ class CustomerController @Inject()(val configuration: Configuration,
           ServiceUnavailable(Json.toJson(Json.obj("message"->errMsg)))
       }
       case e : JsError => Future(BadRequest(Json.toJson(Json.obj("message" ->
-        s"Unable to create customer: $e"))))
+        s"validation error: $e"))))
 
+    }
+  }
+
+  def editCustomer: Action[JsValue] = Action.async(playBodyParsers.json){
+    implicit request => request.body.validate[Customers] match {
+      case JsSuccess(value, _) => customersSer.edit(value).map{
+        case Good(_) => NoContent
+        case Bad(err) =>
+          val errMsg = errTranslationService.translate(err.loneElement.asInstanceOf[Err])
+          NotFound(Json.toJson(Json.obj("message"->errMsg)))
+      }
+      case e : JsError =>Future(BadRequest(Json.toJson(Json.obj("message" ->
+        s"validation error: $e"))))
     }
   }
 

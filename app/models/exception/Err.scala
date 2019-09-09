@@ -36,3 +36,5 @@ object Err {
 
 case class CustomerNotCreated() extends TypedErr
 
+case class CustomerNotEdited() extends TypedErr
+

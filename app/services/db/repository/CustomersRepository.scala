@@ -1,18 +1,17 @@
 package services.db.repository
 
-import java.util.UUID
 
 import com.google.inject.Inject
 import javax.inject.Singleton
 import models.entity.Customers
-import models.exception.{CustomerNotCreated, Err}
+import models.exception.{CustomerNotCreated, CustomerNotEdited, Err}
 import org.scalactic.{Bad, Good, One, Or}
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import services.db.table.CustomerTables
 import slick.jdbc.JdbcProfile
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /**
   * Created by DT2 on 2019-06-21.
@@ -23,16 +22,26 @@ class CustomersRepository @Inject()(protected val dbConfigProvider: DatabaseConf
 
   import profile.api._
 
-  private val customers = TableQuery[CustomerTable]
+  private val custTable = TableQuery[CustomerTable]
 
   def getCustomers : Future[Seq[Customers]] = {
-    db.run(customers.result)
+    db.run(custTable.result)
   }
 
   def addCustomers(customer: Customers) : Future[Customers Or One[Err]] = {
-    db.run((customers returning customers += customer)
+    db.run((custTable returning custTable += customer)
       .map(cust => if (cust.equals(null))
         Bad(One(CustomerNotCreated())) else Good(cust)))
+  }
+
+  def updateCustomers(custs: Customers) : Future[Unit Or One[Err]] = {
+    db.run(custTable.filter(c => c.id === custs.id && c.isActive === 1)
+      .map(c => (c.firstName,c.lastName,c.phoneNumber,c.seal))
+      .update(custs.firstName, custs.lastName, custs.phoneNumber, custs.seal)
+    ).map{
+      case 1 => Good(Unit)
+      case _ => Bad(One(CustomerNotEdited()))
+    }
   }
 
 }

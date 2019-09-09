@@ -17,4 +17,6 @@ GET     /customer                   controllers.CustomerController.customers
 
 POST    /customer                   controllers.CustomerController.customer
 
+PUT     /customer                   controllers.CustomerController.editCustomer
+
       
