@@ -1,9 +1,11 @@
 package controllers
 
+import java.util.UUID
+
 import com.google.inject.Inject
 import models.entity.{Customers, CustomersFormat}
 import models.exception.Err
-import org.scalactic.{Bad, Good}
+import org.scalactic.{Bad, Good, One}
 import play.api.Configuration
 import play.api.libs.json.{JsError, JsSuccess, JsValue, Json}
 import play.api.mvc.{Action, AnyContent, InjectedController, PlayBodyParsers}
@@ -45,13 +47,20 @@ class CustomerController @Inject()(val configuration: Configuration,
     implicit request => request.body.validate[Customers] match {
       case JsSuccess(value, _) => customersSer.edit(value).map{
         case Good(_) => NoContent
-        case Bad(err) =>
-          val errMsg = errTranslationService.translate(err.loneElement.asInstanceOf[Err])
-          NotFound(Json.toJson(Json.obj("message"->errMsg)))
+        case Bad(err) => NotFound(Json.toJson(Json.obj("message"->errMsg(err))))
       }
       case e : JsError =>Future(BadRequest(Json.toJson(Json.obj("message" ->
         s"validation error: $e"))))
     }
   }
+
+  def deleteCustomer(id : UUID): Action[AnyContent] = Action.async{
+    implicit request => customersSer.delete(id).map{
+      case Good(_) => NoContent
+      case Bad(err) => NotFound(Json.toJson(Json.obj("message"->errMsg(err))))
+    }
+  }
+
+  private def errMsg(err : One[Err]) : String = errTranslationService.translate(err.loneElement.asInstanceOf[Err])
 
 }

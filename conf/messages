@@ -1,2 +1,2 @@
 customer.not.created=Not able to create customer due to db error
-customer.not.edited=Not able to edit customer details.
+customer.not.found=Customer not found

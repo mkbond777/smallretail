@@ -19,4 +19,6 @@ POST    /customer                   controllers.CustomerController.customer
 
 PUT     /customer                   controllers.CustomerController.editCustomer
 
+DELETE  /customer/:id               controllers.CustomerController.deleteCustomer(id : java.util.UUID)
+
       

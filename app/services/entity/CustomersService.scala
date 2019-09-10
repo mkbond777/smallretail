@@ -1,5 +1,7 @@
 package services.entity
 
+import java.util.UUID
+
 import com.google.inject.{ImplementedBy, Inject}
 import models.entity.Customers
 import models.exception.Err
@@ -20,6 +22,8 @@ trait CustomersService {
 
   def edit(customers: Customers) : Future[Unit Or One[Err]]
 
+  def delete(id : UUID) : Future[Unit Or One[Err]]
+
 }
 
 class CustomersServiceImpl @Inject()(val customersRepo: CustomersRepository) extends CustomersService {
@@ -29,4 +33,6 @@ class CustomersServiceImpl @Inject()(val customersRepo: CustomersRepository) ext
   override def write(customers: Customers): Future[Or[Customers, One[Err]]] = customersRepo.addCustomers(customers)
 
   override def edit(customers: Customers): Future[Or[Unit, One[Err]]] = customersRepo.updateCustomers(customers)
+
+  override def delete(id: UUID): Future[Or[Unit, One[Err]]] = customersRepo.deleteCustomer(id)
 }
