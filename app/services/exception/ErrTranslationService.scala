@@ -1,7 +1,7 @@
 package services.exception
 
 import com.google.inject.{ImplementedBy, Inject}
-import models.exception.{CustomerNotCreated, CustomerNotFound, Err}
+import models.exception._
 import play.api.i18n.{Lang, MessagesApi}
 
 /**
@@ -21,5 +21,7 @@ class ErrTranslationServiceImpl @Inject()(val messageApi: MessagesApi) extends E
   override def translate(err: Err): String = err match {
     case CustomerNotCreated() => messageApi("customer.not.created")
     case CustomerNotFound() => messageApi("customer.not.found")
+    case ProductNotCreated() => messageApi("products.not.created")
+    case ProductNotFound() => messageApi("product.not.found")
   }
 }

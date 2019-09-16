@@ -1,2 +1,3 @@
-customer.not.created=Not able to create customer due to db error
+customer.not.created=Not able to create customers due to db error
 customer.not.found=Customer not found
+products.not.created=Not able to create products due to db error

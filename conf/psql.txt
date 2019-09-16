@@ -1,0 +1,3 @@
+psql dbname
+\dt
+drop table tablename

@@ -14,11 +14,14 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 # Customer Controller
 GET     /customer                   controllers.CustomerController.customers
-
 POST    /customer                   controllers.CustomerController.customer
-
 PUT     /customer                   controllers.CustomerController.editCustomer
-
 DELETE  /customer/:id               controllers.CustomerController.deleteCustomer(id : java.util.UUID)
+
+# Product Controller
+GET     /product                    controllers.ProductController.products
+POST    /product                    controllers.ProductController.product
+PUT     /product                    controllers.ProductController.editProduct
+DELETE  /product/:id                controllers.ProductController.deleteProduct(id : java.util.UUID)
 
       

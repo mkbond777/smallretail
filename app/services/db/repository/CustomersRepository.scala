@@ -12,14 +12,13 @@ import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import services.db.table.CustomerTables
 import slick.jdbc.JdbcProfile
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 /**
   * Created by DT2 on 2019-06-21.
   */
 @Singleton
-class CustomersRepository @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
+class CustomersRepository @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext)
   extends HasDatabaseConfigProvider[JdbcProfile] with CustomerTables {
 
   import profile.api._

@@ -3,13 +3,13 @@ package controllers
 import java.util.UUID
 
 import com.google.inject.Inject
-import models.entity.{Customers, CustomersFormat}
+import models.entity.{Products, ProductsFormat}
 import models.exception.Err
 import org.scalactic.{Bad, Good, One}
 import play.api.Configuration
 import play.api.libs.json.{JsError, JsSuccess, JsValue, Json}
 import play.api.mvc.{Action, AnyContent, InjectedController, PlayBodyParsers}
-import services.entity.CustomersService
+import services.entity.ProductsService
 import services.exception.ErrTranslationService
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -17,21 +17,20 @@ import scala.concurrent.{ExecutionContext, Future}
 /**
   * Created by DT2 on 2019-06-17.
   */
-class CustomerController @Inject()(val configuration: Configuration,
-                                   val customersSer: CustomersService,
-                                   val playBodyParsers: PlayBodyParsers,
-                                   val errTranslationService: ErrTranslationService)(implicit ec: ExecutionContext)
-  extends InjectedController with CustomersFormat {
+class ProductController @Inject()(val configuration: Configuration,
+                                  val productsSer: ProductsService,
+                                  val playBodyParsers: PlayBodyParsers,
+                                  val errTranslationService: ErrTranslationService)(implicit ec: ExecutionContext)
+  extends InjectedController with ProductsFormat {
 
-  def customers: Action[AnyContent] = Action.async{
-    implicit request => customersSer.read.map(cust =>
-      Ok(Json.toJson(cust)))
+  def products: Action[AnyContent] = Action.async{
+    implicit request => productsSer.read.map(prd => Ok(Json.toJson(prd)))
   }
 
-  def customer: Action[JsValue] = Action.async(playBodyParsers.json){
-    implicit request => request.body.validate[Customers] match {
-      case JsSuccess(value, _) => customersSer.write(value).map {
-        case Good(customer) => Created(Json.toJson(customer))
+  def product: Action[JsValue] = Action.async(playBodyParsers.json){
+    implicit request => request.body.validate[Products] match {
+      case JsSuccess(value, _) => productsSer.write(value).map {
+        case Good(product) => Created(Json.toJson(product))
         case Bad(err) =>
           val errMsg = errTranslationService.translate(err.loneElement.asInstanceOf[Err])
           ServiceUnavailable(Json.toJson(Json.obj("message"->errMsg)))
@@ -42,9 +41,9 @@ class CustomerController @Inject()(val configuration: Configuration,
     }
   }
 
-  def editCustomer: Action[JsValue] = Action.async(playBodyParsers.json){
-    implicit request => request.body.validate[Customers] match {
-      case JsSuccess(value, _) => customersSer.edit(value).map{
+  def editProduct: Action[JsValue] = Action.async(playBodyParsers.json){
+    implicit request => request.body.validate[Products] match {
+      case JsSuccess(value, _) => productsSer.edit(value).map{
         case Good(_) => NoContent
         case Bad(err) => NotFound(Json.toJson(Json.obj("message"->errMsg(err))))
       }
@@ -53,8 +52,8 @@ class CustomerController @Inject()(val configuration: Configuration,
     }
   }
 
-  def deleteCustomer(id : UUID): Action[AnyContent] = Action.async{
-    implicit request => customersSer.delete(id).map{
+  def deleteProduct(id : UUID): Action[AnyContent] = Action.async{
+    implicit request => productsSer.delete(id).map{
       case Good(_) => NoContent
       case Bad(err) => NotFound(Json.toJson(Json.obj("message"->errMsg(err))))
     }
