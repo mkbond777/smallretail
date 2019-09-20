@@ -42,3 +42,8 @@ case class ProductNotCreated() extends TypedErr
 
 case class ProductNotFound() extends TypedErr
 
+case class UnitNotCreated() extends TypedErr
+
+case class UnitNotFound() extends TypedErr
+
+

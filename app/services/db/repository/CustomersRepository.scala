@@ -3,8 +3,7 @@ package services.db.repository
 
 import java.util.UUID
 
-import com.google.inject.Inject
-import javax.inject.Singleton
+import com.google.inject.{Inject, Singleton}
 import models.entity.Customers
 import models.exception.{CustomerNotCreated, CustomerNotFound, Err}
 import org.scalactic.{Bad, Good, One, Or}

@@ -2,8 +2,8 @@ package models.entity
 
 import java.util.UUID
 
-import play.api.libs.json.{Format, JsPath, Reads, Writes}
 import play.api.libs.functional.syntax._
+import play.api.libs.json.{Format, JsPath, Reads, Writes}
 
 case class Customers(id : UUID,
                      firstName:String,
@@ -32,5 +32,5 @@ trait CustomersFormat {
       (JsPath \ "is_active").write[Int]
     )(unlift(Customers.unapply))
 
-  implicit val entityVersionFormat: Format[Customers] = Format(customerReads, customerWrites)
+  implicit val customerFormat: Format[Customers] = Format(customerReads, customerWrites)
 }

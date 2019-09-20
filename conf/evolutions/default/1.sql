@@ -13,8 +13,15 @@ create table "PRODUCTS" ("ID" UUID PRIMARY KEY,
                         "DESCRIPTION" VARCHAR(254),
                         "IS_ACTIVE" SMALLINT NOT NULL);
 
+create table "UNITS" ("ID" UUID PRIMARY KEY,
+                        "NAME" VARCHAR(50) NOT NULL,
+                        "DESCRIPTION" VARCHAR(254),
+                        "IS_ACTIVE" SMALLINT NOT NULL);
+
 # --- !Downs
 
 drop table "CUSTOMERS";
 
 drop table "PRODUCTS";
+
+drop table "UNITS";

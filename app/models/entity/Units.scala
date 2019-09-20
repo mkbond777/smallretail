@@ -5,29 +5,26 @@ import java.util.UUID
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{Format, JsPath, Reads, Writes}
 
-case class Products(id: UUID,
-                    name: String,
-                    pType: String,
-                    description: Option[String],
-                    isActive: Int)
+case class Units(id: UUID,
+                 name: String,
+                 description: Option[String],
+                 isActive: Int)
 
 
-trait ProductsFormat {
-  val productReads: Reads[Products] = (
+trait UnitsFormat {
+  protected val unitsReads: Reads[Units] = (
     (JsPath \ "id").readWithDefault[UUID](java.util.UUID.randomUUID()) and
       (JsPath \ "name").read[String] and
-      (JsPath \ "p_type").read[String] and
       (JsPath \ "description").readNullable[String] and
       (JsPath \ "is_active").readWithDefault[Int](1)
-    ) (Products.apply _)
+    ) (Units.apply _)
 
-  val productWrites: Writes[Products] = (
+  protected val unitsWrites: Writes[Units] = (
     (JsPath \ "id").write[UUID] and
       (JsPath \ "name").write[String] and
-      (JsPath \ "p_type").write[String] and
       (JsPath \ "description").writeOptionWithNull[String] and
       (JsPath \ "is_active").write[Int]
-    ) (unlift(Products.unapply))
+    ) (unlift(Units.unapply))
 
-  implicit val productFormat: Format[Products] = Format(productReads, productWrites)
+  protected implicit val unitsFormat: Format[Units] = Format(unitsReads, unitsWrites)
 }

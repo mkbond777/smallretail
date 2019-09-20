@@ -24,4 +24,10 @@ POST    /product                    controllers.ProductController.product
 PUT     /product                    controllers.ProductController.editProduct
 DELETE  /product/:id                controllers.ProductController.deleteProduct(id : java.util.UUID)
 
+# Unit Controller
+GET     /unit                       controllers.UnitController.units
+POST    /unit                       controllers.UnitController.unit
+PUT     /unit                       controllers.UnitController.editUnit
+DELETE  /unit/:id                   controllers.UnitController.deleteUnit(id : java.util.UUID)
+
       

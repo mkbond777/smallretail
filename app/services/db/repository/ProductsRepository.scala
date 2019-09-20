@@ -2,10 +2,9 @@ package services.db.repository
 
 import java.util.UUID
 
-import com.google.inject.Inject
-import javax.inject.Singleton
+import com.google.inject.{Inject, Singleton}
 import models.entity.Products
-import models.exception.{CustomerNotFound, Err, ProductNotCreated, ProductNotFound}
+import models.exception.{Err, ProductNotCreated, ProductNotFound}
 import org.scalactic.{Bad, Good, One, Or}
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import services.db.table.ProductsTables
@@ -49,7 +48,7 @@ class ProductsRepository @Inject()(protected val dbConfigProvider: DatabaseConfi
       .map(_.isActive).update(0)
     ).map{
       case 1 => Good(Unit)
-      case _ => Bad(One(CustomerNotFound()))
+      case _ => Bad(One(ProductNotFound()))
     }
   }
 
