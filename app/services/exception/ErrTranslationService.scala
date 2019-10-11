@@ -25,5 +25,9 @@ class ErrTranslationServiceImpl @Inject()(val messageApi: MessagesApi) extends E
     case ProductNotFound() => messageApi("product.not.found")
     case UnitNotCreated() =>messageApi("unit.not.created")
     case UnitNotFound() =>messageApi("unit.not.found")
+    case BillProductNotUpdated() => messageApi("bill.products.not.updated")
+    case BillProductNotFound() => messageApi("bill.products.not.found")
+    case BillNotCreated() =>messageApi("bill.not.created")
+    case BillNotFound() =>messageApi("bill.not.found")
   }
 }

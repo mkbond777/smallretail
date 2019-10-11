@@ -4,4 +4,8 @@ products.not.created=Not able to create product due to db error
 product.not.found=Product not found
 unit.not.created=Not able to create unit due to db error
 unit.not.found=Unit not found
+bill.products.not.updated=Not able to create/update bill product due to db error
+bill.products.not.found=Bill Product Not Found
+bill.not.created=Not able to create bill due to db error
+bill.not.found=Bill not found
 

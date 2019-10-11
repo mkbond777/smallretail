@@ -46,4 +46,12 @@ case class UnitNotCreated() extends TypedErr
 
 case class UnitNotFound() extends TypedErr
 
+case class BillProductNotUpdated() extends TypedErr
+
+case class BillProductNotFound() extends TypedErr
+
+case class BillNotCreated() extends TypedErr
+
+case class BillNotFound() extends TypedErr
+
 
