@@ -18,7 +18,7 @@ case class Bills(id : UUID,
 
 trait BillsFormat {
 
-  implicit val dateWrites: Writes[DateTime] = JodaWrites.jodaDateWrites("yyyy-MM-dd hh:mm a")
+  implicit val dateWrites: Writes[DateTime] = JodaWrites.jodaDateWrites("yyyy-MM-dd HH:mm:ss")
 
   implicit val dateReads: Reads[DateTime] = JodaReads.jodaDateReads("yyyy-MM-dd hh:mm a")
 
