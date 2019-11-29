@@ -32,12 +32,12 @@ class BillProductsRepository @Inject()(protected val dbConfigProvider: DatabaseC
   private val unitTable = TableQuery[UnitTable]
 
   def getProducts(id: UUID): Future[Seq[BillProductsWrites]] = {
-    val activeBillProducts = billProductTable.filter(_.isActive === 1)
+    val activeBillProducts = billProductTable.filter(bp => bp.isActive === 1 && bp.billId === id)
     val activeProducts = productTable.filter(_.isActive === 1)
     val activeUnits = unitTable.filter(_.isActive === 1)
 
     val query = for {
-      ((billPrd, prd), units) <- activeBillProducts join activeProducts on (_.prdId === _.id) join activeUnits on (_
+      ((billPrd, prd), units) <- activeBillProducts join activeProducts on (_.prdId === _.id ) join activeUnits on (_
         ._1.unitId === _.id)
     } yield (billPrd.billId, prd, units, billPrd.quantity, billPrd.price, billPrd.isActive)
 
