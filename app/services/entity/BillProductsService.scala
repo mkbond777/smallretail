@@ -3,7 +3,7 @@ package services.entity
 import java.util.UUID
 
 import com.google.inject.{ImplementedBy, Inject}
-import models.entity.BillProducts
+import models.entity.{BillProducts, BillProductsWrites}
 import models.exception.Err
 import org.scalactic.{One, Or}
 import services.db.repository.BillProductsRepository
@@ -16,7 +16,7 @@ import scala.concurrent.Future
 @ImplementedBy(classOf[BillProductsServiceImpl])
 trait BillProductsService {
 
-  def read(billId : UUID) : Future[Seq[BillProducts]]
+  def read(billId : UUID) : Future[Seq[BillProductsWrites]]
 
   def insertOrUpdate(billProducts: BillProducts) : Future[Unit Or One[Err]]
 
@@ -28,7 +28,7 @@ trait BillProductsService {
 
 class BillProductsServiceImpl @Inject()(val billProductsRepo: BillProductsRepository) extends BillProductsService {
 
-  override def read(billId : UUID) : Future[Seq[BillProducts]] = billProductsRepo.getProducts(billId)
+  override def read(billId : UUID) : Future[Seq[BillProductsWrites]] = billProductsRepo.getProducts(billId)
 
   override def insertOrUpdate(billProducts: BillProducts) : Future[Unit Or One[Err]] =
     billProductsRepo.addBillProducts(billProducts)
